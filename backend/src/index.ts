@@ -14,7 +14,7 @@ app.use(cors())
 
 
 
-const CLERK_WEBHOOK_SECRET = "whsec_DtZZP4iOswgH85+pf7MZjvyL4medYv9c";
+const CLERK_WEBHOOK_SECRET = "";
 
 
 app.post(
