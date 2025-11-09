@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+ 
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://neondb_owner:npg_VskxS6Uq1RAg@ep-bitter-rice-adrfhojn.c-2.us-east-1.aws.neon.tech/prisma_migrate_shadow_db_29e42b73-fd20-4563-8fc8-e3ed6d77bc3f?sslmode=require&channel_binding=require"
+}
+
+model users {
+  id String @id @default(uuid()) @unique
+  name String @db.VarChar(255)
+  email String @db.VarChar(255)
+  username String @db.VarChar(255) @default("")
+  password String @db.VarChar(255)
+  avatar String @default("")
+  clerk_id String @db.VarChar(255) @unique @default("")
+  detail details?
+  work_history work_history[]
+  reatedAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  @@map("users")
+}
+
+model details {
+  id Int @id @default(autoincrement())
+  experience String @db.VarChar(255)
+  current_orgainsation String @db.VarChar(255)
+  role String @db.VarChar(255)
+  user_id String @unique
+  user users @relation(fields: [user_id] , references: [id])
+}
+
+model work_history {
+  id Int @id @default(autoincrement())
+  organisation_name String @db.VarChar(255)
+  role String @db.VarChar(255)
+  from DateTime 
+  to DateTime
+  user_id String
+  user users @relation(fields: [user_id] ,references: [id])
+}
