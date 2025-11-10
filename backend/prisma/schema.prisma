@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://neondb_owner:npg_VskxS6Uq1RAg@ep-bitter-rice-adrfhojn.c-2.us-east-1.aws.neon.tech/prisma_migrate_shadow_db_29e42b73-fd20-4563-8fc8-e3ed6d77bc3f?sslmode=require&channel_binding=require"
+  url      = ""
 }
 
 model users {
@@ -26,7 +26,7 @@ model users {
   work_history work_history[]
   reatedAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  @@map("users")
+  skill skills[]
 }
 
 model details {
@@ -36,6 +36,14 @@ model details {
   role String @db.VarChar(255)
   user_id String @unique
   user users @relation(fields: [user_id] , references: [id])
+  city String @db.VarChar(255)
+  state String @db.VarChar(255)
+  country String @db.VarChar(255)
+  bio String @db.VarChar(255)
+  achivements String 
+  gender String 
+  resume String @default("")
+  avatar String @default("")
 }
 
 model work_history {
@@ -46,4 +54,12 @@ model work_history {
   to DateTime
   user_id String
   user users @relation(fields: [user_id] ,references: [id])
+}
+
+model skills{
+  id Int @id @default(autoincrement())
+  skill_name String @db.VarChar(300)
+  user_id String
+  user users @relation(fields: [user_id] , references: [id])
+  @@map("skills")
 }
