@@ -6,17 +6,13 @@ import { Webhook, type WebhookRequiredHeaders } from "svix";
 import type { WebhookEvent } from "@clerk/express";
 import authMiddleware from "./middlewares/authMidleware.js";
 import cors from "cors"
+import router from "./routes/index.js";
+
 const app = express();
-
-
 app.use(cors())
-
-
-
-
 const CLERK_WEBHOOK_SECRET = "";
 
-
+app.use('/api/v1', router)
 app.post(
     "/api/webhook/clerk",
     bodyParser.raw({ type: "application/json" }),
