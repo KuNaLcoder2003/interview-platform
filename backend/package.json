@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@clerk/express": "^1.7.46",
+    "@kunaljprsingh/interview-types": "^1.0.1",
     "@prisma/client": "^6.19.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
