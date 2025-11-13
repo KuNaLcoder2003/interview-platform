@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = ""
+  url      = "postgresql://neondb_owner:npg_VskxS6Uq1RAg@ep-bitter-rice-adrfhojn.c-2.us-east-1.aws.neon.tech/prisma_migrate_shadow_db_29e42b73-fd20-4563-8fc8-e3ed6d77bc3f?sslmode=require&channel_binding=require"
 }
 
 model users {
@@ -24,12 +24,15 @@ model users {
   clerk_id String @db.VarChar(255) @unique @default("")
   detail details?
   work_history work_history[]
+  deatils_filled Boolean @default(false)
   reatedAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   skill skills[]
+  interview interviews[]
+  score score[]
 }
 
-model details {
+ model details {
   id Int @id @default(autoincrement())
   experience String @db.VarChar(255)
   current_orgainsation String @db.VarChar(255)
@@ -62,4 +65,30 @@ model skills{
   user_id String
   user users @relation(fields: [user_id] , references: [id])
   @@map("skills")
+}
+
+model interview_chat{
+  id String @id @default(uuid()) @unique
+  interview_id String @unique
+  interview interviews @relation(fields: [interview_id] , references: [id])
+  chat Json[]
+}
+model interviews {
+  id String @id @default(uuid()) @unique
+  completed Boolean @default(false)
+  description String
+  user_id String
+  chat interview_chat?
+  user users @relation(fields: [user_id] , references: [id])
+  started_at DateTime
+  score score?
+  ended_at DateTime
+}
+
+model score {
+  id String @id @default(uuid()) @unique
+  interview_id String @unique
+  interview interviews @relation(fields: [interview_id] , references: [id])
+  user_id String
+  user users @relation(fields: [user_id] , references: [id])
 }

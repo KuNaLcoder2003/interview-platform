@@ -18,10 +18,10 @@ const AuthContextProvider = ({ children }: any) => {
 
     useEffect(() => {
         async function syncAuthState() {
+            console.log('IS signed in : ', isSignedIn)
             if (isSignedIn && user) {
-
                 const authToken = await getToken();
-                setToken(authToken || "");
+                setToken(authToken as string);
                 setSignedIn(true);
                 setUserDetails(user);
                 localStorage.setItem("token", `Bearer ${authToken}`);

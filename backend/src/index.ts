@@ -12,7 +12,7 @@ const app = express();
 app.use(cors())
 const CLERK_WEBHOOK_SECRET = "";
 
-app.use('/api/v1', router)
+
 app.post(
     "/api/webhook/clerk",
     bodyParser.raw({ type: "application/json" }),
@@ -32,7 +32,7 @@ app.post(
             // verify raw body (Buffer)
             evt = wh.verify(payload, headers) as WebhookEvent;
         } catch (err: any) {
-            console.error("❌ Webhook verification failed:", err.message);
+            console.error("Webhook verification failed:", err.message);
             return res.status(400).json({ error: "Invalid signature" });
         }
 
@@ -91,6 +91,10 @@ app.get('/', authMiddleware, async (req: any, res: express.Response) => {
         })
     }
 })
+
+app.use(express.json())
+app.use('/api/v1', router)
+
 
 app.listen(3000, () => {
     console.log(" Server running on http://localhost:3000");

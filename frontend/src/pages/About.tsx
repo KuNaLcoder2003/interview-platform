@@ -1,28 +1,26 @@
 import type React from "react";
-import { useUser } from "@clerk/clerk-react";
-import { useEffect, useState, useContext } from "react";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
 import HomeNavbar from "../components/Home/HomeNavbar";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 const About: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const { user } = useUser();
-    const { token, signedIn } = useContext(AuthContext);
-    const navigate = useNavigate();
+    const { getToken } = useAuth();
 
-    if (!signedIn) {
-        navigate('/sign-in');
-        return;
-    }
+
+
+
     const [userDetails, setUserDetails] = useState<any>();
 
     useEffect(() => {
+
         async function fetchUser() {
             setLoading(true);
+            const token = await getToken();
             const res = await fetch("http://localhost:3000/", {
-                headers: { Authorization: `Bearer ${token}` },
+                headers: { Authorization: `Bearer ${token}` as string },
             });
             const data = await res.json();
 

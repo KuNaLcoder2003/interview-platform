@@ -12,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<About />} />
+        <Route path="/interview" element={<p>Interview Schedule</p>} />
         <Route
           path="/home"
           element={

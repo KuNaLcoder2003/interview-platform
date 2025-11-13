@@ -4,7 +4,7 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
 
-const PUBLISHABLE_KEY = "";
+const PUBLISHABLE_KEY = "pk_test_YWxpdmUtamFja2FsLTgyLmNsZXJrLmFjY291bnRzLmRldiQ";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
