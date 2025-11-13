@@ -21,15 +21,7 @@ function authMiddleware(req: any, res: express.Response, next: express.NextFunct
         const permittedOrigins = ['http://localhost:5173']
         // https://alive-jackal-82.clerk.accounts.dev/.well-known/jwks.json
 
-        const publicKey = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuq9kGjpzfKARHR9gbzWL
-XDWhtWo6CEanQU4PKKiOS2bbIIZIbyGKEkBb0iopC6jK48ecFXELPQyXx4LbKmIn
-g+ECSRWEkodHFN+VapoazRZ4R3QbAVrLK83V5H3iFFsakvVafztgA/DKX9xqxPRR
-PMMtZimCjSbzakOyoUBVJ6wrpJM02jBEcEPedg74BqWBNvLQviNkaB5oUpV/cTV7
-b3AaJ+8dg8ChfDPSHDje4H/QDpnhHku4B1ESusRaTAyP+de3aCKwMWhZS9OJ8iCC
-uiW8vfPJjVQTNxquh0mUT6j7SLc123S9hvjvfYgHalbb2wp+4c+tdZu1WkKdpTb8
-YwIDAQAB
------END PUBLIC KEY-----`
+        const publicKey = ``
 
         const verified = jwt.verify(token,
             publicKey
