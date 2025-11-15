@@ -7,10 +7,12 @@ import type { WebhookEvent } from "@clerk/express";
 import authMiddleware from "./middlewares/authMidleware.js";
 import cors from "cors"
 import router from "./routes/index.js";
+import dotenv from "dotenv"
+dotenv.config()
 
 const app = express();
 app.use(cors())
-const CLERK_WEBHOOK_SECRET = "";
+const CLERK_WEBHOOK_SECRET = `${process.env.CLERK_WEBHOOK}`;
 
 
 app.post(

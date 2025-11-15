@@ -3,6 +3,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { LoaderCircle } from "lucide-react";
 import ProfileForm from "../components/forms/Details";
 import Dashboard from "../components/DashBoard";
+import HomeNavbar from "../components/Home/HomeNavbar";
 
 export default function Home() {
     const [loading, setLoading] = useState<boolean>(true);
@@ -49,6 +50,7 @@ export default function Home() {
             {/* Sidebar + Main Content */}
             {!isFilled ? (
                 <div className="flex flex-col items-center min-w-full p-8">
+                    <HomeNavbar />
                     <div className="w-full max-w-xl mt-16">
                         <ProfileForm />
                     </div>

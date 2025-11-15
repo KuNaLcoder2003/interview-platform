@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/middlewares/authmidleware.ts","./src/routes/index.ts","./src/routes/user.ts"],"version":"5.9.3"}
+{"root":["./src/index.ts","./src/functions/chat.ts","./src/middlewares/authmidleware.ts","./src/routes/index.ts","./src/routes/interview.ts","./src/routes/user.ts"],"version":"5.9.3"}

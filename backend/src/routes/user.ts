@@ -108,8 +108,10 @@ userRouter.get('/check', authMiddleware, async (req: any, res: express.Response)
             filled: user.deatils_filled
         })
     } catch (error) {
+        console.log(error);
         res.status(500).json({
-            message: 'Something went wrong'
+            message: 'Something went wrong',
+            error: error
         })
     }
 })

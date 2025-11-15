@@ -8,9 +8,12 @@ import {
     Award,
     Briefcase,
     Building,
-    Code
+    Code,
+    Loader
 } from 'lucide-react';
-import { UserButton } from '@clerk/clerk-react';
+import { useAuth, UserButton } from '@clerk/clerk-react';
+import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 type Tabs = "Home" | "Interview" | "Contest" | "AI Insights" | "Profile"
 
 const Dashboard = () => {
@@ -230,6 +233,8 @@ const Dashboard = () => {
 
 const InterviewTab = () => {
 
+    const [loading, setLoading] = useState<boolean>(false);
+
 
     const roles = [
         'Frontend Developer',
@@ -258,8 +263,67 @@ const InterviewTab = () => {
         'AWS', 'Docker', 'Kubernetes', 'GraphQL', 'REST API',
         'Django', 'Flask', 'Spring Boot', 'Express.js', 'Next.js'
     ];
+
+    const [interviewDetails, setInterviewDetails] = useState({
+        role: "",
+        experience: "",
+        tech_stack: [""],
+    })
+    const { getToken } = useAuth()
+
+
+    const navigate = useNavigate()
+
+    const createInterview = async () => {
+        console.log('reqq reachedddddd for interview')
+        setLoading(true)
+        try {
+
+            const token = await getToken() as string
+            console.log(token)
+            if (!token || token.length == 0) {
+                console.log('Return hole bhai')
+                return
+            }
+            console.log(interviewDetails)
+            fetch('http://localhost:3000/api/v1/interview/', {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    desc: "Interview for : " + interviewDetails.role + interviewDetails.experience + interviewDetails.tech_stack.join(''),
+                    role: interviewDetails.role,
+                    experience: interviewDetails.experience,
+                    tech_stack: interviewDetails.tech_stack.join('')
+                })
+            }).then(async (res: Response) => {
+                const data = await res.json()
+                if (data.valid) {
+                    navigate(`/interview/${data.interview_id}`);
+                    setLoading(false);
+                } else {
+                    // show toast for error
+                    toast.error(data.message);
+                    setLoading(false);
+                }
+            })
+        } catch (error) {
+            setLoading(false);
+            console.log(error)
+        }
+    }
+
     return (
         <main className="flex-1 p-8">
+            <Toaster />
+            {
+                loading && (
+                    <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 rounded-lg'>
+                        <div className='rounded-lg shadow-md h-auto p-4 w-[30%] m-auto'>
+                            <Loader className='bg-lime-300' />
+                        </div>
+                    </div>
+                )
+            }
             <div className="max-w-4xl mx-auto">
                 {/* Page Header */}
                 <div className="mb-8">
@@ -276,7 +340,12 @@ const InterviewTab = () => {
                                 <Briefcase size={18} className="text-blue-400" />
                                 Select Role
                             </label>
-                            <select className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            <select onChange={(e) => {
+                                setInterviewDetails({
+                                    ...interviewDetails,
+                                    role: e.target.value
+                                })
+                            }} className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
                                 <option value="">Choose a role...</option>
                                 {roles.map((role, index) => (
                                     <option key={index} value={role}>{role}</option>
@@ -290,7 +359,12 @@ const InterviewTab = () => {
                                 <Award size={18} className="text-purple-400" />
                                 Experience Level
                             </label>
-                            <select className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                            <select onChange={(e) => {
+                                setInterviewDetails({
+                                    ...interviewDetails,
+                                    experience: e.target.value
+                                })
+                            }} className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
                                 <option value="">Select your experience...</option>
                                 {experienceLevels.map((level, index) => (
                                     <option key={index} value={level}>{level}</option>
@@ -308,12 +382,17 @@ const InterviewTab = () => {
                                 <input
                                     type="text"
                                     placeholder="Type or select technologies..."
+                                    value={interviewDetails.tech_stack.join('')}
                                     className="w-full bg-transparent text-gray-100 focus:outline-none mb-3"
                                 />
                                 <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
                                     {popularTechStacks.map((tech, index) => (
                                         <button
                                             key={index}
+                                            onClick={() => setInterviewDetails({
+                                                ...interviewDetails,
+                                                tech_stack: [...interviewDetails.tech_stack, tech]
+                                            })}
                                             type="button"
                                             className="px-3 py-1.5 bg-gray-800 hover:bg-blue-600 border border-gray-600 hover:border-blue-500 rounded-full text-xs transition-all"
                                         >
@@ -354,10 +433,11 @@ const InterviewTab = () => {
                         {/* Action Buttons */}
                         <div className="flex gap-4 pt-4">
                             <button
+                                onClick={() => createInterview()}
                                 type="button"
                                 className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40"
                             >
-                                Start Interview
+                                Create Interview
                             </button>
                             <button
                                 type="button"

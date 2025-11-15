@@ -27,7 +27,14 @@ export const skills = z.array(z.object({
     user_id: z.string()
 }))
 
+export const chat = z.array(
+    z.object({
+        role: z.string(),
+        message: z.string()
+    })
+)
+
 export type Details_Type = z.infer<typeof details>
 export type Work_History_Type = z.infer<typeof work_history>
 export type Skills_Type = z.infer<typeof skills>
-
+export type Chat_Type = z.infer<typeof chat> 

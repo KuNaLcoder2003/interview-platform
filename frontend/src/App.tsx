@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import LandingPage from "./pages/LandingPage";
 import "./App.css"
 import About from "./pages/About";
+import Interview from "./components/Interview/Interview";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<About />} />
-        <Route path="/interview" element={<p>Interview Schedule</p>} />
+        <Route path="/interview/:id" element={<Interview />} />
         <Route
           path="/home"
           element={

@@ -4,7 +4,9 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
 
-const PUBLISHABLE_KEY = "";
+
+const PUBLISHABLE_KEY = `${import.meta.env.VITE_PUBLISHABLE_KEY}`;
+
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

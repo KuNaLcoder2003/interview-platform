@@ -9,9 +9,6 @@ const About: React.FC = () => {
     const { user } = useUser();
     const { getToken } = useAuth();
 
-
-
-
     const [userDetails, setUserDetails] = useState<any>();
 
     useEffect(() => {
