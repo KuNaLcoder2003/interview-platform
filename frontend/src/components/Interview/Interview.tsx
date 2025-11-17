@@ -3,6 +3,7 @@ import { Send, Mic, Paperclip, MoreVertical, Sparkles } from 'lucide-react';
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useLocation } from "react-router-dom";
 
 type role = "user" | "assistant"
 interface Messages {
@@ -12,12 +13,13 @@ interface Messages {
 const Interview: React.FC = () => {
     const [messages, setMessages] = useState<Messages[]>([])
     const [userResponse, setUserResponse] = useState<string>("");
-
+    const path = useLocation();
     useEffect(() => {
+        const interview_id = path.pathname.split('/').at(-1);
         try {
             const loaderIndex = messages.length + 1;
             setMessages(prev => [...prev, { role: "assistant", content: "..." }]);
-            fetch('http://localhost:3000/api/v1/interview/start/c3797dc6-aa60-4e3c-ae05-ff6f3bfeec42', {
+            fetch(import.meta.env.VITE_BACKEND_URL + '/api/v1/interview/start/' + interview_id, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
@@ -162,8 +164,9 @@ const Interview: React.FC = () => {
                                 // Add AI loader message
                                 const loaderIndex = messages.length + 1;
                                 setMessages(prev => [...prev, { role: "assistant", content: "..." }]);
+                                const interview_id = path.pathname.split('/').at(-1);
 
-                                fetch('http://localhost:3000/api/v1/interview/start/c3797dc6-aa60-4e3c-ae05-ff6f3bfeec42', {
+                                fetch(import.meta.env.VITE_BACKEND_URL + '/api/v1/interview/start/' + interview_id, {
                                     method: 'POST',
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({

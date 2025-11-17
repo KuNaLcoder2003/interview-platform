@@ -286,7 +286,7 @@ const InterviewTab = () => {
                 return
             }
             console.log(interviewDetails)
-            fetch('http://localhost:3000/api/v1/interview/', {
+            fetch(import.meta.env.VITE_BACKEND_URL + '/api/v1/interview/', {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
                 body: JSON.stringify({

@@ -16,7 +16,7 @@ const About: React.FC = () => {
         async function fetchUser() {
             setLoading(true);
             const token = await getToken();
-            const res = await fetch("http://localhost:3000/", {
+            const res = await fetch(import.meta.env.VITE_BACKEND_URL, {
                 headers: { Authorization: `Bearer ${token}` as string },
             });
             const data = await res.json();

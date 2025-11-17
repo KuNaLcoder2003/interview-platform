@@ -16,7 +16,7 @@ export default function Home() {
             const token = await getToken();
             localStorage.setItem("token", `Bearer ${token}`);
 
-            const res = await fetch("http://localhost:3000/api/v1/user/check", {
+            const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/v1/user/check", {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,

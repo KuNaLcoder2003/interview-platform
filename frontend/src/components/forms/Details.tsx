@@ -75,7 +75,7 @@ export default function ProfileForm() {
                 work_history: workHistory,
                 skills: skills
             }
-            fetch('http://localhost:3000/api/v1/user/userDetails', {
+            fetch(import.meta.env.VITE_BACKEND_URL + '/api/v1/user/userDetails', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${t}`,
