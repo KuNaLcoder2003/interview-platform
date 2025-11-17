@@ -20,6 +20,7 @@ app.post(
     bodyParser.raw({ type: "application/json" }),
     async (req, res) => {
         const payload = req.body; // keep raw body, do not JSON.stringify()
+        console.log(CLERK_WEBHOOK_SECRET)
 
         const headers = {
             "svix-id": req.headers["svix-id"] as string,
