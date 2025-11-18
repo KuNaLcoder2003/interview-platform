@@ -12,12 +12,15 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^24.10.0",
+    "@types/readable-stream": "^4.0.22",
     "prisma": "^6.19.0",
+    "readable-stream": "^4.7.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "@clerk/express": "^1.7.46",
+    "@elevenlabs/elevenlabs-js": "^2.24.1",
     "@kunaljprsingh/interview-types": "^1.0.1",
     "@prisma/client": "^6.19.0",
     "@types/cors": "^2.8.19",

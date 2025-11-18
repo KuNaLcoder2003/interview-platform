@@ -5,6 +5,11 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useLocation } from "react-router-dom";
 
+function playBase64Audio(base64: string) {
+    const audio = new Audio(`data:audio/mp3;base64,${base64}`);
+    audio.play();
+}
+
 type role = "user" | "assistant"
 interface Messages {
     role: role,
@@ -39,6 +44,7 @@ const Interview: React.FC = () => {
                         };
                         return updated;
                     });
+                    playBase64Audio(data.audio_base64);
                 } else {
                     alert("Byeee bhai")
                 }

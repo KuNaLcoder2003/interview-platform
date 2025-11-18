@@ -3,7 +3,8 @@ import authMiddleware from "../middlewares/authMidleware.js";
 import { PrismaClient } from "@prisma/client";
 import Chat from "../functions/chat.js";
 const prisma = new PrismaClient();
-
+import { ElevenLabsClient, play } from '@elevenlabs/elevenlabs-js';
+import { Readable } from "readable-stream";
 const interViewRouter = express.Router();
 type roles = "user" | "assistant"
 interface Message {
@@ -121,10 +122,35 @@ interViewRouter.post('/start/:id', async (req: any, res: express.Response) => {
             })
             return
         }
-        res.status(200).json({
+        const elevenlabs = new ElevenLabsClient({
+            apiKey: `${process.env.ELEVEN_LABS_KEY}`,
+        });
+        const audio = await elevenlabs.textToSpeech.convert(
+            `${process.env.VOICE_ID}`,
+            {
+                text: response,
+                modelId: "eleven_multilingual_v2",
+                outputFormat: "mp3_44100_128",
+            }
+        );
+        const reader = audio.getReader();
+        const chunks: Uint8Array[] = [];
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            chunks.push(value);
+        }
+
+        const audioBuffer = Buffer.concat(chunks);
+        const base64Audio = audioBuffer.toString("base64");
+
+
+        return res.status(200).json({
             ai_response: response,
+            audio_base64: base64Audio,
             valid: true
-        })
+        });
 
     } catch (error) {
         console.log(error)
